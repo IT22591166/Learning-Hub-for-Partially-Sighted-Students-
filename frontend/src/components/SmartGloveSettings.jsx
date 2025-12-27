@@ -86,10 +86,44 @@ function SmartGloveSettings({ onBack }) {
     setIsConnected(!isConnected)
   }
 
+  const showAccessibleMessage = (message) => {
+    let region = document.getElementById('smart-glove-toast')
+    if (!region) {
+      region = document.createElement('div')
+      region.id = 'smart-glove-toast'
+      region.setAttribute('role', 'status')
+      region.setAttribute('aria-live', 'polite')
+      region.style.position = 'fixed'
+      region.style.bottom = '1rem'
+      region.style.left = '50%'
+      region.style.transform = 'translateX(-50%)'
+      region.style.backgroundColor = 'rgba(0, 0, 0, 0.85)'
+      region.style.color = '#ffffff'
+      region.style.padding = '0.75rem 1rem'
+      region.style.borderRadius = '4px'
+      region.style.fontSize = '1rem'
+      region.style.zIndex = '9999'
+      region.style.maxWidth = '90%'
+      region.style.textAlign = 'center'
+      document.body.appendChild(region)
+    }
+
+    region.textContent = message
+    region.style.display = 'block'
+
+    if (showAccessibleMessage._hideTimeoutId) {
+      clearTimeout(showAccessibleMessage._hideTimeoutId)
+    }
+
+    showAccessibleMessage._hideTimeoutId = setTimeout(() => {
+      region.style.display = 'none'
+    }, 4000)
+  }
+
   const testHapticFeedback = () => {
     // This would trigger a test vibration on the actual glove
     console.log('Testing haptic feedback with current settings:', hapticSettings)
-    alert('Haptic test signal sent to glove!')
+    showAccessibleMessage('Haptic test signal sent to glove!')
   }
 
   const resetToDefaults = () => {
@@ -129,7 +163,7 @@ function SmartGloveSettings({ onBack }) {
           </svg>
           Back
         </button>
-        <h1>🧤 Smart Glove Settings</h1>
+        <h1>Smart Glove Settings</h1>
         <p className="settings-subtitle">Configure haptic feedback for inputs and outputs</p>
       </div>
 
@@ -478,7 +512,16 @@ function SmartGloveSettings({ onBack }) {
         <button className="action-button reset-button" onClick={resetToDefaults}>
           <span>🔄</span> Reset to Defaults
         </button>
-        <button className="action-button save-button">
+        <button
+          className="action-button save-button"
+          onClick={() => {
+            try {
+              localStorage.setItem('smartGloveSettings', JSON.stringify(hapticSettings))
+            } catch (error) {
+              console.error('Failed to save Smart Glove settings', error)
+            }
+          }}
+        >
           <span>💾</span> Save Settings
         </button>
       </section>
