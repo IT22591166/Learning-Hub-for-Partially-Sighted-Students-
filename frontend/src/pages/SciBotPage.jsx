@@ -421,7 +421,7 @@ export default function SciBotPage() {
                             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                                 <div className="min-w-0">
                                     <h2 className={`text-xl sm:text-2xl font-extrabold leading-tight ${mainText}`}>
-                                        Lesson 01 - Plant Diversity (Part 01) | Grade 07 Science in English
+                                        Lesson 02 - Plant Diversity (Part 01) | Grade 07 Science in English
                                     </h2>
                                     <p className={`${subtleText} text-sm mt-1`}>
                                         Interactive learning with real-time progress tracking and voice assistant support.
