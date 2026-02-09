@@ -149,7 +149,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
 
   const sizeConfig = {
     small: { width: 340, height: 500 },
-    medium: { width: 20, height: 650 },
+    medium: { width: 420, height: 650 },
     large: { width: 500, height: 800 },
   };
 
