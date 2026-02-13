@@ -11,6 +11,7 @@ import {
   RefreshCw,
   PauseCircle,
 } from "lucide-react";
+import { hapticNotify } from "../utils/hapticNotify";
 
 const ChatBox = ({ theme = "light", isDark = false }) => {
   const [input, setInput] = useState("");
@@ -287,6 +288,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
       const answerText = data?.answer || "Sorry, I did not find an answer.";
       setMessages((prev) => [...prev, { id: Date.now() + 1, text: answerText, sender: "bot", timestamp: new Date() }]);
       setSrStatus(`ChatBot answered: ${answerText}`);
+      hapticNotify('1');
 
       lastBotAnswerRef.current = answerText;
       speak(answerText, { interrupt: true });

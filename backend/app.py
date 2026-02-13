@@ -37,6 +37,7 @@ def create_app():
             "modules": {
                 "scibot": "/api/scibot/ask",
                 "voice_module": "/api/voice/*",
+                "smart_glove": "/api/smart-glove/*",
                 "health": "/api/health"
             }
         })
@@ -63,6 +64,16 @@ def create_app():
                 status["modules"]["voice_module"] = "not_initialized"
         except Exception:
             status["modules"]["voice_module"] = "not_available"
+
+        # Check Smart Glove Module
+        try:
+            from smart_glove.ble_manager import get_ble_manager
+            ble = get_ble_manager()
+            status["modules"]["smart_glove"] = "connected" if ble.is_connected else "ready"
+        except ImportError:
+            status["modules"]["smart_glove"] = "not_available (install bleak)"
+        except Exception as e:
+            status["modules"]["smart_glove"] = f"error: {e}"
 
         return jsonify(status)
 
@@ -94,6 +105,16 @@ def create_app():
         @app.route('/api/scibot/ask', methods=['POST'])
         def scibot_ask_fallback():
             return jsonify({"error": "SciBot module is not available. Check dependencies."}), 503
+
+    # ==================== SMART GLOVE MODULE ====================
+    try:
+        from smart_glove.routes import register_smart_glove_routes
+        register_smart_glove_routes(app)
+        logger.info("✅ Smart Glove BLE module loaded")
+    except ImportError as e:
+        logger.warning(f"⚠ Smart Glove module not available (install 'bleak' for BLE support): {e}")
+    except Exception as e:
+        logger.warning(f"⚠ Smart Glove module error: {e}")
 
     # ==================== VOICE MODULE ====================
     try:

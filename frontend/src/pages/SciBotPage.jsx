@@ -288,7 +288,7 @@ export default function SciBotPage() {
                             <div className="min-w-0">
                                 <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight truncate">
                                     <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                                        Science Learning Hub 
+                                        Science Learning Hub 1
                                     </span>
                                 </h1>
                                 <p className={`${subtleText} text-xs sm:text-sm flex items-center gap-2`}>

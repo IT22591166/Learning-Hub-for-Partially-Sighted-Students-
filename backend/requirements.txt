@@ -17,6 +17,9 @@ pypdf>=3.0.0
 scipy>=1.10.0
 requests>=2.31.0
 
+# Smart Glove BLE Dependencies
+bleak>=0.21.0
+
 # Optional: Better audio processing (install if needed)
 # librosa>=0.10.0
 # soundfile>=0.12.0
