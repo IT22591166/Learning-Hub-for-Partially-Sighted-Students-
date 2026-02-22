@@ -143,7 +143,7 @@ def build_or_load_index():
             doc_matrix = sparse.load_npz(str(DOC_MATRIX_SPARSE_PATH))
         else:
             doc_matrix = np.load(DOC_MATRIX_PATH, allow_pickle=False)
-        print(f"✅ Loaded {len(corpus_chunks)} chunks disk.")
+        print(f"✅ Loaded {len(corpus_chunks)} chunks from disk.")
         return
 
     print("🔹 Building corpus from PDFs...")
