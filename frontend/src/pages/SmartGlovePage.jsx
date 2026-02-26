@@ -127,11 +127,11 @@ export default function SmartGlovePage() {
 
             {/* Header */}
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h1 style={{ fontSize: '1.75rem', fontWeight: 700 }}>≡ƒºñ Smart Glove Settings</h1>
+                <h1 style={{ fontSize: '1.75rem', fontWeight: 700 }}>Smart Glove Settings</h1>
                 <p style={{ color: '#6b7280', fontSize: '0.9rem' }}>Connect to ESP32 and control haptic motors via BLE</p>
             </div>
 
-            {/* ΓöÇΓöÇ Connection Card ΓöÇΓöÇ */}
+            {/* Connection Card */}
             <div style={{
                 background: '#fff', borderRadius: 12, padding: '1.25rem',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e5e7eb', marginBottom: '1rem'
@@ -169,7 +169,7 @@ export default function SmartGlovePage() {
                             opacity: isConnecting ? 0.7 : 1
                         }}
                     >
-                        {isConnecting ? 'ΓÅ│ Scanning...' : isConnected ? 'Disconnect' : 'Connect Glove'}
+                        {isConnecting ? 'Scanning...' : isConnected ? 'Disconnect' : 'Connect Glove'}
                     </button>
                 </div>
 
@@ -179,7 +179,7 @@ export default function SmartGlovePage() {
                         marginTop: '1rem', padding: '0.85rem', background: '#f0fdf4',
                         borderRadius: 8, border: '1px solid #bbf7d0'
                     }}>
-                        <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem' }}>≡ƒôí Device Info</h4>
+                        <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem' }}>Device Info</h4>
                         <table style={{ width: '100%', fontSize: '0.78rem', fontFamily: 'monospace', borderCollapse: 'collapse' }}>
                             <tbody>
                                 <tr><td style={{ color: '#6b7280', paddingRight: 12, paddingBottom: 4 }}>Name</td><td style={{ fontWeight: 600 }}>{deviceInfo.name}</td></tr>
@@ -192,13 +192,13 @@ export default function SmartGlovePage() {
                 )}
             </div>
 
-            {/* ΓöÇΓöÇ Motor Test Card ΓöÇΓöÇ */}
+            {/* Motor Test Card */}
             <div style={{
                 background: '#fff', borderRadius: 12, padding: '1.25rem',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e5e7eb', marginBottom: '1rem',
                 opacity: isConnected ? 1 : 0.5, pointerEvents: isConnected ? 'auto' : 'none'
             }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.25rem' }}>≡ƒÄ« Motor Test</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.25rem' }}>Motor Test</h3>
                 <p style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '0.75rem' }}>
                     GPIO 12 = Motor 1 &nbsp;|&nbsp; GPIO 26 = Motor 2 &nbsp;|&nbsp; GPIO 2 = LED
                 </p>
@@ -233,16 +233,16 @@ export default function SmartGlovePage() {
                         color: '#16a34a', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer'
                     }}
                 >
-                    ≡ƒô│ Test Haptic Feedback (Both Motors)
+                     Test Haptic Feedback (Both Motors)
                 </button>
             </div>
 
-            {/* ΓöÇΓöÇ ESP32 Commands Card ΓöÇΓöÇ */}
+            {/* ESP32 Commands Card */}
             <div style={{
                 background: '#fff', borderRadius: 12, padding: '1.25rem',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e5e7eb'
             }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>≡ƒôï ESP32 Commands</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>ESP32 Commands</h3>
                 <table style={{ width: '100%', fontSize: '0.8rem', borderCollapse: 'collapse' }}>
                     <thead>
                         <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
@@ -253,15 +253,15 @@ export default function SmartGlovePage() {
                     <tbody>
                         <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
                             <td style={{ padding: '0.35rem 0' }}><code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>"1"</code></td>
-                            <td style={{ padding: '0.35rem 0' }}>Motor 1 (GPIO 12) ΓÇö 200ms pulse</td>
+                            <td style={{ padding: '0.35rem 0' }}>Motor 1 (GPIO 12) 200ms pulse</td>
                         </tr>
                         <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
                             <td style={{ padding: '0.35rem 0' }}><code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>"2"</code></td>
-                            <td style={{ padding: '0.35rem 0' }}>Motor 2 (GPIO 26) ΓÇö 200ms pulse</td>
+                            <td style={{ padding: '0.35rem 0' }}>Motor 2 (GPIO 26)  200ms pulse</td>
                         </tr>
                         <tr>
                             <td style={{ padding: '0.35rem 0' }}><code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4 }}>"3"</code></td>
-                            <td style={{ padding: '0.35rem 0' }}>Both motors ΓÇö 200ms pulse</td>
+                            <td style={{ padding: '0.35rem 0' }}>Both motors 200ms pulse</td>
                         </tr>
                     </tbody>
                 </table>
