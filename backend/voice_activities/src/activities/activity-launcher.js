@@ -17,15 +17,24 @@ const GLOVE_API = `${BACKEND_URL}/api/smart-glove`;
  * Send haptic pulse: 1 vibration for correct, 2 for wrong
  */
 function hapticFeedback(isCorrect) {
-  const pulse = () =>
-    fetch(`${GLOVE_API}/motor`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ command: '3' })
-    }).catch(() => {});
+  hapticPulse();
+  if (!isCorrect) setTimeout(() => hapticPulse(), 400);
+}
 
-  pulse();
-  if (!isCorrect) setTimeout(() => pulse(), 400);
+/** Fire a single motor pulse (fire-and-forget) */
+function hapticPulse(command = '3') {
+  fetch(`${GLOVE_API}/motor`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ command })
+  }).catch(() => {});
+}
+
+/** Celebration pattern: 3 rapid pulses */
+function hapticCelebration() {
+  hapticPulse();
+  setTimeout(() => hapticPulse(), 300);
+  setTimeout(() => hapticPulse(), 600);
 }
 
 export class ActivityLauncher {
@@ -71,6 +80,8 @@ export class ActivityLauncher {
           if (data.session_id) {
             this.sessionId = data.session_id;
             this.startTime = Date.now();
+            // Haptic: single pulse to signal session start
+            hapticPulse();
             console.log(`✅ Session started: ${this.sessionId}`);
             return this.sessionId;
           }
@@ -82,6 +93,8 @@ export class ActivityLauncher {
       // Fallback: Create local session ID if backend is unavailable
       this.sessionId = `local-${this.studentId}-${Date.now()}`;
       this.startTime = Date.now();
+      // Haptic: single pulse to signal session start
+      hapticPulse();
       console.log(`✅ Local session created: ${this.sessionId}`);
       return this.sessionId;
     } catch (error) {
@@ -339,6 +352,8 @@ export class ActivityLauncher {
     }
 
     if (newLevel !== this.currentLevel) {
+      // Haptic: left motor for difficulty up, right motor for difficulty down
+      hapticPulse(newLevel > this.currentLevel ? '1' : '2');
       this.currentLevel = newLevel;
 
       // Update in database
@@ -388,6 +403,9 @@ export class ActivityLauncher {
 
       // Award badges if conditions met
       await this.checkAndAwardBadges();
+
+      // Haptic: celebration pattern for session completion
+      hapticCelebration();
 
       console.log(`✅ Session ended: ${this.sessionId}`);
 

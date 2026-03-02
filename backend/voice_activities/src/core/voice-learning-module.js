@@ -11,6 +11,24 @@ import { EmotionDetector } from '../emotion-detection/emotion-detector.js';
 import { logger } from '../utils/logger.js';
 import { v4 as uuidv4 } from 'uuid';
 
+const GLOVE_API = 'http://localhost:5001/api/smart-glove';
+
+/** Fire a single motor pulse (fire-and-forget) */
+function hapticPulse(command = '3') {
+  fetch(`${GLOVE_API}/motor`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ command })
+  }).catch(() => {});
+}
+
+/** Celebration pattern: 3 rapid pulses */
+function hapticCelebration() {
+  hapticPulse();
+  setTimeout(() => hapticPulse(), 300);
+  setTimeout(() => hapticPulse(), 600);
+}
+
 export class VoiceLearningModule {
   constructor(options = {}) {
     this.options = {
@@ -117,6 +135,9 @@ export class VoiceLearningModule {
         character: 'sophie',
         emotionalTone: 'encouraging'
       });
+
+      // Haptic: single pulse to signal session start
+      hapticPulse();
 
       return this.session;
 
@@ -329,13 +350,6 @@ export class VoiceLearningModule {
     });
 
     // Haptic feedback: 1 pulse for correct, 2 pulses for wrong
-    const hapticPulse = () =>
-      fetch('http://localhost:5001/api/smart-glove/motor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: '3' })
-      }).catch(() => {});
-
     if (isCorrect) {
       hapticPulse();
     } else {
@@ -404,6 +418,9 @@ export class VoiceLearningModule {
         character: 'sophie',
         emotionalTone: 'celebratory'
       });
+
+      // Haptic: celebration pattern for session completion
+      hapticCelebration();
 
       this.isActive = false;
 

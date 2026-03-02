@@ -8,6 +8,23 @@ import ProgressTracker from './progress-tracker.js';
 import Leaderboard from './leaderboard.js';
 
 const STORAGE_KEY = 'vlm_gamification_state_v1';
+const GLOVE_API = 'http://localhost:5001/api/smart-glove';
+
+/** Fire a single motor pulse (fire-and-forget) */
+function hapticPulse(command = '3') {
+  fetch(`${GLOVE_API}/motor`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ command })
+  }).catch(() => {});
+}
+
+/** Celebration pattern: 3 rapid pulses */
+function hapticCelebration() {
+  hapticPulse();
+  setTimeout(() => hapticPulse(), 300);
+  setTimeout(() => hapticPulse(), 600);
+}
 
 export default class GamificationEngine {
   constructor(options = {}) {
@@ -60,9 +77,17 @@ export default class GamificationEngine {
 
     const leveledUp = this.progress.addXpAndMaybeLevel(player, amount);
 
+    // Haptic: celebration pattern on level-up
+    if (leveledUp.leveled) hapticCelebration();
+
     // Check for badge grants based on reason or totals
     const newBadges = this.badges.checkAndAward(player, { reason, amount });
     newBadges.forEach(b => player.badges.push(b));
+
+    // Haptic: celebration pattern for new badges
+    if (newBadges.length > 0) {
+      setTimeout(() => hapticCelebration(), leveledUp.leveled ? 1000 : 0);
+    }
 
     this._saveState();
 
@@ -81,6 +106,8 @@ export default class GamificationEngine {
         player.badges.push(badgeId);
         player.lastUpdated = Date.now();
         this._saveState();
+        // Haptic: celebration for badge grant
+        hapticCelebration();
         return badge;
       }
     }
