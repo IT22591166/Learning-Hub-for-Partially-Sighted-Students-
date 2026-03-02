@@ -164,6 +164,7 @@ export default function ObjectRecognitionPage() {
                                 onClick={connectToESP}
                                 disabled={connecting}
                                 className="or-connect-btn"
+                                onMouseEnter={() => hapticNotify('3')}
                             >
                                 {connecting ? '⏳ Connecting...' : '🔗 Connect'}
                             </button>
@@ -194,7 +195,7 @@ export default function ObjectRecognitionPage() {
                             <span className="or-status-dot connected" />
                             <span>Connected to <strong>{espIp}</strong></span>
                         </div>
-                        <button onClick={disconnect} className="or-disconnect-btn">
+                        <button onClick={disconnect} className="or-disconnect-btn" onMouseEnter={() => { hapticNotify('3'); setTimeout(() => hapticNotify('3'), 200) }}>
                             Disconnect
                         </button>
                     </div>
@@ -224,25 +225,28 @@ export default function ObjectRecognitionPage() {
 
                                 {/* Controls */}
                                 <div className="or-controls">
-                                    <button onClick={capturePhoto} className="or-btn or-btn-capture">
+                                    <button onClick={capturePhoto} className="or-btn or-btn-capture" onMouseEnter={() => hapticNotify('3')}>
                                         📸 Capture
                                     </button>
                                     <button
                                         onClick={detectShape}
                                         disabled={detecting}
                                         className="or-btn or-btn-detect"
+                                        onMouseEnter={() => hapticNotify('3')}
                                     >
                                         {detecting ? '⏳ Detecting...' : '🤖 Detect Shape'}
                                     </button>
                                     <button
                                         onClick={toggleStream}
                                         className={`or-btn ${streamMode ? 'or-btn-stop' : 'or-btn-stream'}`}
+                                        onMouseEnter={() => hapticNotify('3')}
                                     >
                                         {streamMode ? '⏹ Stop Stream' : '▶ Live Stream'}
                                     </button>
                                     <button
                                         onClick={toggleFlash}
                                         className={`or-btn ${flashOn ? 'or-btn-flash-on' : 'or-btn-flash'}`}
+                                        onMouseEnter={() => hapticNotify('3')}
                                     >
                                         {flashOn ? '💡 Flash ON' : '🔦 Flash OFF'}
                                     </button>
@@ -346,6 +350,7 @@ export default function ObjectRecognitionPage() {
                                     <button
                                         onClick={() => setHistory([])}
                                         className="or-btn or-btn-clear"
+                                        onMouseEnter={() => hapticNotify('3')}
                                     >
                                         Clear History
                                     </button>

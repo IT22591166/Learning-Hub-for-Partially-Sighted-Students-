@@ -470,9 +470,9 @@
         <div class="card difficulty-section">
             <h2>⚙️ Select Difficulty Level</h2>
             <div class="difficulty-grid">
-                <button type="button" class="difficulty-btn easy" onclick="setDifficulty('easy')">🟢 Easy</button>
-                <button type="button" class="difficulty-btn medium" onclick="setDifficulty('medium')">🟡 Medium</button>
-                <button type="button" class="difficulty-btn hard" onclick="setDifficulty('hard')">🔴 Hard</button>
+                <button type="button" class="difficulty-btn easy" onclick="setDifficulty('easy')" onmouseenter="hapticVibrate()">🟢 Easy</button>
+                <button type="button" class="difficulty-btn medium" onclick="setDifficulty('medium')" onmouseenter="hapticVibrate()">🟡 Medium</button>
+                <button type="button" class="difficulty-btn hard" onclick="setDifficulty('hard')" onmouseenter="hapticVibrate()">🔴 Hard</button>
             </div>
             <div class="difficulty-status" id="difficultyStatus">
                 👈 Select a difficulty level to begin
@@ -485,31 +485,31 @@
             <div class="card">
                 <h2>📚 Learning Activities</h2>
                 <div class="activities-grid">
-                    <button type="button" class="activity-btn" onclick="startActivity('counting')">
+                    <button type="button" class="activity-btn" onclick="startActivity('counting')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">🔢</span>
                         <span class="activity-name">Counting<br>Adventure</span>
                     </button>
-                    <button type="button" class="activity-btn" onclick="startActivity('numbers')">
+                    <button type="button" class="activity-btn" onclick="startActivity('numbers')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">🎯</span>
                         <span class="activity-name">Number<br>Recognition</span>
                     </button>
-                    <button type="button" class="activity-btn" onclick="startActivity('math')">
+                    <button type="button" class="activity-btn" onclick="startActivity('math')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">➕</span>
                         <span class="activity-name">Basic<br>Math</span>
                     </button>
-                    <button type="button" class="activity-btn" onclick="startActivity('alphabet')">
+                    <button type="button" class="activity-btn" onclick="startActivity('alphabet')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">🔤</span>
                         <span class="activity-name">Alphabet<br>Learning</span>
                     </button>
-                    <button type="button" class="activity-btn" onclick="startActivity('colors')">
+                    <button type="button" class="activity-btn" onclick="startActivity('colors')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">🎨</span>
                         <span class="activity-name">Colors &<br>Shapes</span>
                     </button>
-                    <button type="button" class="activity-btn" onclick="startActivity('phonics')">
+                    <button type="button" class="activity-btn" onclick="startActivity('phonics')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">🔊</span>
                         <span class="activity-name">Phonics<br>Sounds</span>
                     </button>
-                    <button type="button" class="activity-btn" onclick="startActivity('time')">
+                    <button type="button" class="activity-btn" onclick="startActivity('time')" onmouseenter="hapticVibrate()">
                         <span class="activity-emoji">🕐</span>
                         <span class="activity-name">Time<br>Telling</span>
                     </button>
@@ -906,7 +906,7 @@
                         </div>
                         
                         <div style="display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; justify-content: center;">
-                            <button onclick="speakQuestion()" style="padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
+                            <button onclick="speakQuestion()" onmouseenter="hapticVibrate()" style="padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
                                 🔊 Hear Again
                             </button>
                             <button onclick="startVoiceRecord()" onmouseenter="hapticVibrate()" style="padding: 12px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
@@ -914,7 +914,7 @@
                             </button>
                         </div>
                         
-                        <button onclick="exitActivity()" style="width: 100%; padding: 12px; background: #f44336; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
+                        <button onclick="exitActivity()" onmouseenter="hapticVibrate(); setTimeout(hapticVibrate, 200);" style="width: 100%; padding: 12px; background: #f44336; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
                             ❌ Exit Activity
                         </button>
                         
@@ -1039,7 +1039,7 @@
                 // Show retry button after 2 seconds
                 setTimeout(() => {
                     if (statusDiv) {
-                        statusDiv.innerHTML += '<button onclick="startVoiceRecord()" style="display: block; width: 100%; padding: 12px; background: #FF9800; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer; margin-top: 15px;">Try Again 🎤</button>';
+                        statusDiv.innerHTML += '<button onclick="startVoiceRecord()" onmouseenter="hapticVibrate()" style="display: block; width: 100%; padding: 12px; background: #FF9800; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer; margin-top: 15px;">Try Again 🎤</button>';
                     }
                     if (recordBtn) recordBtn.disabled = false;
                     if (listenBtn) listenBtn.disabled = false;
@@ -1122,7 +1122,7 @@
                     <div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8eef7 100%); padding: 40px; border-radius: 15px; margin: 20px 0;">
                         ${message}
                     </div>
-                    <button onclick="exitActivity()" style="width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 15px;">
+                    <button onclick="exitActivity()" onmouseenter="hapticVibrate(); setTimeout(hapticVibrate, 200);" style="width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 15px;">
                         ✓ Back to Dashboard
                     </button>
                 </div>

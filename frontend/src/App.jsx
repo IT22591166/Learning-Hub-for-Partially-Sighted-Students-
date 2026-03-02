@@ -1,5 +1,6 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { hapticNotify } from './utils/hapticNotify'
 import HomePage from './pages/HomePage'
 import SciBotPage from './pages/SciBotPage'
 import SmartGlovePage from './pages/SmartGlovePage'
@@ -40,6 +41,7 @@ function App() {
                             <Link
                                 to={link.path}
                                 className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+                                onMouseEnter={() => hapticNotify('3')}
                             >
                                 {link.label}
                             </Link>
@@ -52,6 +54,7 @@ function App() {
                         className="theme-toggle"
                         onClick={() => setDarkMode(!darkMode)}
                         aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                        onMouseEnter={() => hapticNotify('3')}
                     >
                         {darkMode ? '☀️' : '🌙'}
                     </button>

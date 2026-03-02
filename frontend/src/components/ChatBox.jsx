@@ -840,6 +840,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
               onClick={() => setNeedsRefreshNotice(false)}
               aria-label="Close"
               className="absolute top-3 right-3 text-slate-400 hover:text-slate-600 text-xl"
+              onMouseEnter={() => hapticNotify('3')}
             >
               ×
             </button>
@@ -855,6 +856,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
               ref={refreshBtnRef}
               className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500 flex items-center justify-center gap-2"
               onClick={() => window.location.reload()}
+              onMouseEnter={() => hapticNotify('3')}
             >
               <RefreshCw className="w-4 h-4" />
               Refresh Now
@@ -882,6 +884,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
               onClick={() => setNeedsVoiceEnable(false)}
               aria-label="Close"
               className="absolute top-3 right-3 text-slate-400 hover:text-slate-600 text-xl"
+              onMouseEnter={() => hapticNotify('3')}
             >
               ×
             </button>
@@ -897,6 +900,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
               className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500"
               onClick={enableVoiceNow}
               autoFocus
+              onMouseEnter={() => hapticNotify('3')}
             >
               Press Enter to Enable
             </button>
@@ -950,6 +954,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
                   className="p-2 rounded-lg bg-red-500/90 text-white hover:bg-red-500 transition-colors"
                   title="Stop listening (close)"
                   aria-label="Stop listening (close)"
+                  onMouseEnter={() => hapticNotify('3')}
                 >
                   <PauseCircle className="w-4 h-4" />
                 </button>
@@ -959,16 +964,18 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
                     onClick={() => setMessages([])}
                     className={`p-2 rounded-lg ${currentTheme.iconBtn} transition-colors`}
                     title="Clear Chat"
+                    onMouseEnter={() => hapticNotify('3')}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 )}
-                <button onClick={cycleChatSize} className={`p-2 rounded-lg ${currentTheme.iconBtn} transition-colors`}>
+                <button onClick={cycleChatSize} onMouseEnter={() => hapticNotify('3')} className={`p-2 rounded-lg ${currentTheme.iconBtn} transition-colors`}>
                   <Maximize2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setIsMinimized(!isMinimized)}
                   className={`p-2 rounded-lg ${currentTheme.iconBtn} transition-colors`}
+                  onMouseEnter={() => hapticNotify('3')}
                 >
                   <span className="leading-none text-lg font-bold">{isMinimized ? "□" : "−"}</span>
                 </button>
@@ -978,6 +985,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
                     toggleChat();
                   }}
                   className={`p-2 rounded-lg ${currentTheme.iconBtn} transition-colors`}
+                  onMouseEnter={() => hapticNotify('3')}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -1037,7 +1045,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
                   {micPermission !== "granted" && (
                     <div className="flex items-center justify-between mb-3 px-1">
                       <span className="text-xs text-slate-500">Enable microphone for voice chat</span>
-                      <button onClick={requestMicAccess} className="text-xs font-medium text-blue-600 hover:underline">
+                      <button onClick={requestMicAccess} onMouseEnter={() => hapticNotify('3')} className="text-xs font-medium text-blue-600 hover:underline">
                         Allow Access
                       </button>
                     </div>
@@ -1068,6 +1076,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
                     <div className="absolute right-2 top-1.5 flex items-center gap-1">
                       <button
                         onClick={toggleRecording}
+                        onMouseEnter={() => hapticNotify('3')}
                         className={`p-2 rounded-xl transition-all duration-300 ${isRecording
                             ? "bg-red-500 text-white shadow-lg shadow-red-500/30 scale-105"
                             : "hover:bg-slate-100 text-slate-500"
@@ -1080,6 +1089,7 @@ const ChatBox = ({ theme = "light", isDark = false }) => {
                       <button
                         onClick={() => askFlaskBackend()}
                         disabled={!input.trim() || loading}
+                        onMouseEnter={() => hapticNotify('3')}
                         className={`p-2 rounded-xl transition-all duration-300 ${!input.trim() || loading
                             ? "bg-slate-100 text-slate-300 cursor-not-allowed"
                             : `${currentTheme.bubbleBtn} text-white shadow-lg shadow-blue-500/30`

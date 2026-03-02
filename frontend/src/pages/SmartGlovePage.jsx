@@ -1,4 +1,5 @@
 ﻿import { useState, useEffect } from 'react'
+import { hapticNotify } from '../utils/hapticNotify'
 
 const API_BASE = 'http://localhost:5001/api/smart-glove'
 
@@ -127,7 +128,7 @@ export default function SmartGlovePage() {
 
             {/* Header */}
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h1 style={{ fontSize: '1.75rem', fontWeight: 700 }}>Smart Glove Settings</h1>
+                <h1 style={{ fontSize: '1.75rem', fontWeight: 700 }}>Smart Glove Setting </h1>
                 <p style={{ color: '#6b7280', fontSize: '0.9rem' }}>Connect to ESP32 and control haptic motors via BLE</p>
             </div>
 
@@ -161,6 +162,7 @@ export default function SmartGlovePage() {
                     <button
                         onClick={isConnected ? handleDisconnect : handleConnect}
                         disabled={isConnecting}
+                        onMouseEnter={() => hapticNotify('3')}
                         style={{
                             padding: '0.5rem 1.25rem', borderRadius: 8, border: 'none', fontWeight: 600,
                             fontSize: '0.85rem', cursor: isConnecting ? 'wait' : 'pointer',
@@ -211,6 +213,7 @@ export default function SmartGlovePage() {
                         <button
                             key={cmd}
                             onClick={() => sendMotor(cmd, label)}
+                            onMouseEnter={() => hapticNotify('3')}
                             style={{
                                 padding: '0.75rem 0.5rem', borderRadius: 10, border: '2px solid ' + color,
                                 background: motorActive === cmd ? color : '#fff',
@@ -227,6 +230,7 @@ export default function SmartGlovePage() {
                 {/* Test All button */}
                 <button
                     onClick={testFeedback}
+                    onMouseEnter={() => hapticNotify('3')}
                     style={{
                         marginTop: '0.75rem', width: '100%', padding: '0.65rem',
                         borderRadius: 10, border: '2px solid #22c55e', background: '#f0fdf4',

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { hapticNotify } from '../utils/hapticNotify'
 
 const features = [
     {
@@ -50,6 +51,7 @@ export default function HomePage() {
                         to={f.path}
                         className="feature-card"
                         style={{ '--card-accent': f.color }}
+                        onMouseEnter={() => hapticNotify('3')}
                     >
                         <span className="feature-icon">{f.icon}</span>
                         <h2>{f.title}</h2>

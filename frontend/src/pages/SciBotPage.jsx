@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { hapticNotify } from "../utils/hapticNotify";
 import {
     BookOpen,
     Clock,
@@ -311,6 +312,7 @@ export default function SciBotPage() {
                                         : "border-slate-300/30 hover:border-blue-400 hover:bg-blue-50/10"
                                     }`}
                                 aria-label="Switch to light theme"
+                                onMouseEnter={() => hapticNotify('3')}
                             >
                                 <Sun size={14} />
                                 <span className="hidden sm:inline">Light</span>
@@ -323,6 +325,7 @@ export default function SciBotPage() {
                                         : "border-slate-300/30 hover:border-emerald-400 hover:bg-emerald-50/10"
                                     }`}
                                 aria-label="Switch to dark theme"
+                                onMouseEnter={() => hapticNotify('3')}
                             >
                                 <Moon size={14} />
                                 <span className="hidden sm:inline">Dark</span>
@@ -335,6 +338,7 @@ export default function SciBotPage() {
                                         : "border-slate-300/30 hover:border-indigo-400 hover:bg-indigo-50/10"
                                     }`}
                                 aria-label="Switch to blue theme"
+                                onMouseEnter={() => hapticNotify('3')}
                             >
                                 <Palette size={14} />
                                 <span>Blue</span>
@@ -362,6 +366,7 @@ export default function SciBotPage() {
                             className={`ml-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${pill}`}
                             title="Accessibility tip"
                             aria-label="Accessibility tip"
+                            onMouseEnter={() => hapticNotify('3')}
                         >
                             <Volume2 size={14} />
                             Voice help
@@ -435,6 +440,7 @@ export default function SciBotPage() {
                                         rel="noreferrer"
                                         className={`inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold ${softBtn} transition-all hover:scale-105`}
                                         title="Open on YouTube"
+                                        onMouseEnter={() => hapticNotify('3')}
                                     >
                                         <ExternalLink size={14} />
                                         YouTube
@@ -534,12 +540,14 @@ export default function SciBotPage() {
                                     className={`px-4 py-2.5 rounded-xl text-sm font-bold ${softBtn} transition-all hover:scale-105`}
                                     onClick={() => setNotes("")}
                                     type="button"
+                                    onMouseEnter={() => hapticNotify('3')}
                                 >
                                     Clear
                                 </button>
                                 <button
                                     className={`px-6 py-2.5 rounded-xl text-sm font-extrabold ${primaryBtn} transition-all hover:scale-105`}
                                     type="button"
+                                    onMouseEnter={() => hapticNotify('3')}
                                 >
                                     Save Notes
                                 </button>
