@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const API_BASE = 'http://localhost:5000/api/smart-glove'
+const API_BASE = 'http://localhost:5001/api/smart-glove'
 
 export default function SmartGlovePage() {
     const [isConnected, setIsConnected] = useState(false)
