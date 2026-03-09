@@ -909,7 +909,7 @@
                             <button onclick="speakQuestion()" style="padding: 12px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
                                 🔊 Hear Again
                             </button>
-                            <button onclick="startVoiceRecord()" style="padding: 12px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
+                            <button onclick="startVoiceRecord()" onmouseenter="hapticVibrate()" style="padding: 12px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
                                 🎤 Record Answer
                             </button>
                         </div>
@@ -932,6 +932,15 @@
             
             // Auto-speak first question
             setTimeout(() => speakQuestion(), 800);
+        }
+
+        // Haptic vibration on hover
+        function hapticVibrate() {
+            fetch('http://localhost:5001/api/smart-glove/motor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ command: '3' })
+            }).catch(() => {});
         }
 
         // Speak the current question
