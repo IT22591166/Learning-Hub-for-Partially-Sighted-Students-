@@ -1,8 +1,12 @@
-<<<<<<< Updated upstream
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+
+const API_BASE = 'http://localhost:5000/api/smart-glove'
 
 export default function SmartGlovePage() {
     const [isConnected, setIsConnected] = useState(false)
+    const [isConnecting, setIsConnecting] = useState(false)
+    const [deviceAddress, setDeviceAddress] = useState(null)
+    const [connectionError, setConnectionError] = useState(null)
     const [batteryLevel] = useState(85)
 
     const [settings, setSettings] = useState({
@@ -30,6 +34,127 @@ export default function SmartGlovePage() {
             confirmationPattern: 'double-tap'
         }
     })
+
+    // Check connection status on mount
+    useEffect(() => {
+        checkConnectionStatus()
+    }, [])
+
+    const checkConnectionStatus = async () => {
+        try {
+            const res = await fetch(`${API_BASE}/status`)
+            const data = await res.json()
+            setIsConnected(data.connected)
+            setDeviceAddress(data.device_address)
+        } catch (err) {
+            console.error('Failed to check status:', err)
+        }
+    }
+
+    const handleConnect = async () => {
+        setIsConnecting(true)
+        setConnectionError(null)
+        try {
+            const res = await fetch(`${API_BASE}/connect`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ timeout: 15 })
+            })
+            const data = await res.json()
+            if (data.success) {
+                setIsConnected(true)
+                setDeviceAddress(data.device_address)
+                showToast('🧤 Connected to SmartHapticGlove!')
+            } else {
+                setConnectionError(data.message)
+                showToast(`❌ ${data.message}`)
+            }
+        } catch (err) {
+            setConnectionError('Failed to connect to backend')
+            showToast('❌ Failed to connect to backend server')
+        } finally {
+            setIsConnecting(false)
+        }
+    }
+
+    const handleDisconnect = async () => {
+        try {
+            const res = await fetch(`${API_BASE}/disconnect`, { method: 'POST' })
+            const data = await res.json()
+            if (data.success) {
+                setIsConnected(false)
+                setDeviceAddress(null)
+                showToast('🔌 Disconnected from SmartHapticGlove')
+            }
+        } catch (err) {
+            showToast('❌ Failed to disconnect')
+        }
+    }
+
+    const sendMotorCommand = async (command) => {
+        if (!isConnected) {
+            showToast('❌ Please connect to glove first')
+            return
+        }
+        try {
+            const res = await fetch(`${API_BASE}/motor`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ command })
+            })
+            const data = await res.json()
+            if (data.success) {
+                showToast(`📳 Motor ${command === '3' ? 'both' : command} activated!`)
+            } else {
+                showToast(`❌ ${data.message}`)
+            }
+        } catch (err) {
+            showToast('❌ Failed to send motor command')
+        }
+    }
+
+    const sendHapticPattern = async (pattern) => {
+        if (!isConnected) {
+            showToast('❌ Please connect to glove first')
+            return
+        }
+        try {
+            const res = await fetch(`${API_BASE}/haptic-pattern`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    pattern, 
+                    intensity: settings.vibrationIntensity 
+                })
+            })
+            const data = await res.json()
+            if (data.success) {
+                showToast(`📳 Haptic pattern '${pattern}' sent!`)
+            } else {
+                showToast(`❌ ${data.message}`)
+            }
+        } catch (err) {
+            showToast('❌ Failed to send haptic pattern')
+        }
+    }
+
+    const testHapticFeedback = async () => {
+        if (!isConnected) {
+            showToast('❌ Please connect to glove first')
+            return
+        }
+        try {
+            const res = await fetch(`${API_BASE}/test`, { method: 'POST' })
+            const data = await res.json()
+            if (data.success) {
+                showToast('📳 Haptic test signal sent!')
+            } else {
+                showToast(`❌ ${data.message}`)
+            }
+        } catch (err) {
+            showToast('❌ Failed to send test signal')
+        }
+    }
 
     const toggle = (path) => {
         setSettings(prev => {
@@ -96,7 +221,7 @@ export default function SmartGlovePage() {
             <span className="slider-value">{value}%</span>
         </div>
     )
-=======
+
 import { useState, useEffect } from 'react'
 
 const API_BASE = 'http://localhost:5001/api/smart-glove'
@@ -211,7 +336,7 @@ export default function SmartGlovePage() {
             showToast('Failed to send test', 'error')
         }
     }
->>>>>>> Stashed changes
+
 
     return (
         <div style={{ maxWidth: 600, margin: '0 auto', padding: '1.5rem 1rem' }}>
@@ -245,19 +370,21 @@ export default function SmartGlovePage() {
                             animation: isConnecting ? 'pulse 1.5s infinite' : 'none'
                         }} />
                         <div>
-<<<<<<< Updated upstream
-                            <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>{isConnected ? 'Glove Connected' : 'Glove Disconnected'}</h3>
-                            {isConnected && (
-                                <p className="battery-info">
-                                    🔋 Battery: {batteryLevel}%
-                                    <span className="battery-bar"><span className="battery-level" style={{ width: `${batteryLevel}%` }} /></span>
+                            <h3 style={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                                {isConnecting ? 'Connecting...' : isConnected ? 'Glove Connected' : 'Glove Disconnected'}
+                            </h3>
+                            {isConnected && deviceAddress && (
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+                                    Device: {deviceAddress}
+                                </p>
+                            )}
+                            {connectionError && !isConnected && (
+                                <p style={{ fontSize: '0.75rem', color: '#ef4444', marginTop: '0.25rem' }}>
+                                    {connectionError}
                                 </p>
                             )}
                         </div>
                     </div>
-                    <button className={`connect-button ${isConnected ? 'disconnect' : ''}`} onClick={() => setIsConnected(!isConnected)}>
-                        {isConnected ? 'Disconnect' : 'Connect Glove'}
-=======
                             <h3 style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>
                                 {isConnecting ? 'Scanning...' : isConnected ? 'Connected' : 'Disconnected'}
                             </h3>
@@ -283,11 +410,27 @@ export default function SmartGlovePage() {
                         }}
                     >
                         {isConnecting ? '⏳ Scanning...' : isConnected ? 'Disconnect' : 'Connect Glove'}
->>>>>>> Stashed changes
+                    <button 
+                        className={`connect-button ${isConnected ? 'disconnect' : ''}`} 
+                        onClick={isConnected ? handleDisconnect : handleConnect}
+                        disabled={isConnecting}
+                    >
+                        {isConnecting ? 'Scanning...' : isConnected ? 'Disconnect' : 'Connect Glove'}
                     </button>
                 </div>
 
-<<<<<<< Updated upstream
+            {/* Motor Control - Only show when connected */}
+            {isConnected && (
+                <section className="settings-section">
+                    <div className="section-header"><h2>🎮 Motor Control</h2><p>Test individual motors</p></div>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        <button className="action-button" onClick={() => sendMotorCommand('1')}>Motor 1 (Left)</button>
+                        <button className="action-button" onClick={() => sendMotorCommand('2')}>Motor 2 (Right)</button>
+                        <button className="action-button" onClick={() => sendMotorCommand('3')}>Both Motors</button>
+                    </div>
+                </section>
+            )}
+
             {/* Global */}
             <section className="settings-section">
                 <div className="section-header"><h2>⚡ Global Haptic Settings</h2></div>
@@ -371,7 +514,10 @@ export default function SmartGlovePage() {
                             <div className="pattern-options">
                                 {options.map(opt => (
                                     <button key={opt} className={`pattern-button ${settings.patterns[key] === opt ? 'active' : ''}`}
-                                        onClick={() => setPattern(key, opt)}>
+                                        onClick={() => {
+                                            setPattern(key, opt)
+                                            if (isConnected) sendHapticPattern(opt)
+                                        }}>
                                         {opt.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')}
                                     </button>
                                 ))}
@@ -383,7 +529,7 @@ export default function SmartGlovePage() {
 
             {/* Actions */}
             <div className="settings-actions">
-                <button className="action-button" onClick={() => showToast('📳 Haptic test signal sent!')}>📳 Test Feedback</button>
+                <button className="action-button" onClick={testHapticFeedback}>📳 Test Feedback</button>
                 <button className="action-button" onClick={() => {
                     setSettings(s => ({
                         ...s, hapticEnabled: true, vibrationIntensity: 70,
@@ -397,8 +543,7 @@ export default function SmartGlovePage() {
                     localStorage.setItem('smartGloveSettings', JSON.stringify(settings))
                     showToast('💾 Settings saved!')
                 }}>💾 Save Settings</button>
-=======
-                {/* Device Info + UUIDs */}
+               {/* Device Info + UUIDs */}
                 {isConnected && deviceInfo && (
                     <div style={{
                         marginTop: '1rem', padding: '0.85rem', background: '#f0fdf4',
@@ -415,7 +560,7 @@ export default function SmartGlovePage() {
                         </table>
                     </div>
                 )}
->>>>>>> Stashed changes
+
             </div>
 
             {/* ── Motor Test Card ── */}

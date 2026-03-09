@@ -235,9 +235,7 @@ class BLEManager:
         return {
             "connected": self.is_connected,
             "device_address": self._device_address,
-            "device_name": DEVICE_NAME if self.is_connected else None,
-            "service_uuid": SERVICE_UUID if self.is_connected else None,
-            "characteristic_uuid": CHARACTERISTIC_UUID if self.is_connected else None
+            "device_name": DEVICE_NAME if self.is_connected else None
         }
 
 

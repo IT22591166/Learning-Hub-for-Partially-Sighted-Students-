@@ -93,14 +93,10 @@ def connect():
     try:
         ble = get_ble_manager()
         run_async(ble.connect(address, timeout))
-        status = ble.get_status()
         return jsonify({
             "success": True,
             "connected": True,
-            "device_address": status["device_address"],
-            "device_name": status["device_name"],
-            "service_uuid": status["service_uuid"],
-            "characteristic_uuid": status["characteristic_uuid"],
+            "device_address": ble.device_address,
             "message": "Successfully connected to SmartHapticGlove"
         })
     except ConnectionError as e:
