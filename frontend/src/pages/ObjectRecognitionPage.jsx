@@ -91,15 +91,22 @@ export default function ObjectRecognitionPage() {
             const data = await res.json()
             if (data.error) {
                 setError(data.error)
+                // Haptic: 2 pulses for detection failure
+                hapticNotify('3')
+                setTimeout(() => hapticNotify('3'), 400)
             } else {
                 setResult(data)
                 setHistory(prev => [data, ...prev].slice(0, 10))
-                hapticNotify('1')
+                // Haptic: 1 pulse for successful detection
+                hapticNotify('3')
                 // Refresh image to show what was detected
                 capturePhoto()
             }
         } catch {
             setError('Detection failed. Check ESP32 connection.')
+            // Haptic: 2 pulses for failure
+            hapticNotify('3')
+            setTimeout(() => hapticNotify('3'), 400)
         }
         setDetecting(false)
     }
