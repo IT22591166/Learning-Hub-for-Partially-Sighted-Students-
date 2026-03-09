@@ -327,6 +327,21 @@ export class VoiceLearningModule {
       character: 'sophie',
       emotionalTone
     });
+
+    // Haptic feedback: 1 pulse for correct, 2 pulses for wrong
+    const hapticPulse = () =>
+      fetch('http://localhost:5001/api/smart-glove/motor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command: '3' })
+      }).catch(() => {});
+
+    if (isCorrect) {
+      hapticPulse();
+    } else {
+      hapticPulse();
+      setTimeout(() => hapticPulse(), 400);
+    }
   }
 
   /**

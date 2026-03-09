@@ -11,6 +11,22 @@
 
 // Backend API configuration
 const BACKEND_URL = 'http://localhost:5001';
+const GLOVE_API = `${BACKEND_URL}/api/smart-glove`;
+
+/**
+ * Send haptic pulse: 1 vibration for correct, 2 for wrong
+ */
+function hapticFeedback(isCorrect) {
+  const pulse = () =>
+    fetch(`${GLOVE_API}/motor`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ command: '3' })
+    }).catch(() => {});
+
+  pulse();
+  if (!isCorrect) setTimeout(() => pulse(), 400);
+}
 
 export class ActivityLauncher {
   constructor(activity, studentId, currentLevel = 1, voiceManager = null) {
@@ -153,6 +169,9 @@ export class ActivityLauncher {
       // Update difficulty based on performance
       await this.updateDifficulty();
 
+      // Haptic feedback: 1 pulse correct, 2 pulses wrong
+      hapticFeedback(isCorrect);
+
       return {
         isCorrect,
         xpEarned,
@@ -242,6 +261,9 @@ export class ActivityLauncher {
       if (this.voiceManager) {
         this.voiceManager.giveFeedback(isCorrect, question);
       }
+
+      // Haptic feedback: 1 pulse correct, 2 pulses wrong
+      hapticFeedback(isCorrect);
 
       return {
         isCorrect,
