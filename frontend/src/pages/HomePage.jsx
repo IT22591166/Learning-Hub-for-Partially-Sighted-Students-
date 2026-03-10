@@ -7,7 +7,7 @@ const features = [
         description: 'Ask questions about Grade 7 Science and get instant answers from your textbook using AI-powered retrieval.',
         icon: '🤖',
         path: '/scibot',
-        color: '#8b5cf6',
+        color: '#3a45e9',
         badge: 'AI Powered'
     },
     {
