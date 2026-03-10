@@ -41,7 +41,6 @@ function App() {
                             <Link
                                 to={link.path}
                                 className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
-                                onMouseEnter={() => hapticNotify('1')}
                             >
                                 {link.label}
                             </Link>

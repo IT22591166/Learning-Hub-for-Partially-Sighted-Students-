@@ -470,9 +470,9 @@
         <div class="card difficulty-section">
             <h2>⚙️ Select Difficulty Level</h2>
             <div class="difficulty-grid">
-                <button type="button" class="difficulty-btn easy" onclick="setDifficulty('easy')" onmouseenter="hapticVibrate()">🟢 Easy</button>
-                <button type="button" class="difficulty-btn medium" onclick="setDifficulty('medium')" onmouseenter="hapticVibrate()">🟡 Medium</button>
-                <button type="button" class="difficulty-btn hard" onclick="setDifficulty('hard')" onmouseenter="hapticVibrate()">🔴 Hard</button>
+                <button type="button" class="difficulty-btn easy" onclick="setDifficulty('easy')" onmouseenter="hapticVibrateN(1)">🟢 Easy</button>
+                <button type="button" class="difficulty-btn medium" onclick="setDifficulty('medium')" onmouseenter="hapticVibrateN(2)">🟡 Medium</button>
+                <button type="button" class="difficulty-btn hard" onclick="setDifficulty('hard')" onmouseenter="hapticVibrateN(3)">🔴 Hard</button>
             </div>
             <div class="difficulty-status" id="difficultyStatus">
                 👈 Select  difficulty level to begin
@@ -914,7 +914,7 @@
                             </button>
                         </div>
                         
-                        <button onclick="exitActivity()" onmouseenter="hapticVibrate(); setTimeout(hapticVibrate, 200);" style="width: 100%; padding: 12px; background: #f44336; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
+                        <button onclick="exitActivity()" onmouseenter="hapticLongVibrate()" style="width: 100%; padding: 12px; background: #f44336; color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
                             ❌ Exit Activity
                         </button>
                         
@@ -940,6 +940,22 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ command: '3' })
+            }).catch(() => {});
+        }
+
+        // Vibrate N times (e.g. 1 for easy, 2 for medium, 3 for hard)
+        function hapticVibrateN(n) {
+            for (let i = 0; i < n; i++) {
+                setTimeout(() => hapticVibrate(), i * 350);
+            }
+        }
+
+        // Long vibrate for exit actions
+        function hapticLongVibrate() {
+            fetch('http://localhost:5001/api/smart-glove/haptic-pattern', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pattern: 'long' })
             }).catch(() => {});
         }
 
@@ -1122,7 +1138,7 @@
                     <div style="background: linear-gradient(135deg, #f0f4ff 0%, #e8eef7 100%); padding: 40px; border-radius: 15px; margin: 20px 0;">
                         ${message}
                     </div>
-                    <button onclick="exitActivity()" onmouseenter="hapticVibrate(); setTimeout(hapticVibrate, 200);" style="width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 15px;">
+                    <button onclick="exitActivity()" onmouseenter="hapticLongVibrate()" style="width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 15px;">
                         ✓ Back to Dashboard
                     </button>
                 </div>

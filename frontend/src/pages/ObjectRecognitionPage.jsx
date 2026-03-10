@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { hapticNotify } from '../utils/hapticNotify'
+import { hapticNotify, hapticLong } from '../utils/hapticNotify'
 
 const SHAPES_INFO = {
     Circle: { emoji: '⭕', type: '2D', color: '#3b82f6' },
@@ -195,7 +195,7 @@ export default function ObjectRecognitionPage() {
                             <span className="or-status-dot connected" />
                             <span>Connected to <strong>{espIp}</strong></span>
                         </div>
-                        <button onClick={disconnect} className="or-disconnect-btn" onMouseEnter={() => { hapticNotify('3'); setTimeout(() => hapticNotify('3'), 200) }}>
+                        <button onClick={disconnect} className="or-disconnect-btn" onMouseEnter={() => hapticLong()}>
                             Disconnect
                         </button>
                     </div>

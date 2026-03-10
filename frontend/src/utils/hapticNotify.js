@@ -20,3 +20,15 @@ export function hapticNotify(command = '3') {
         body: JSON.stringify({ command })
     }).catch(() => {})
 }
+
+/**
+ * Send a long haptic vibration pattern to the Smart Glove.
+ * Fires and forgets — never blocks the caller or shows errors to the user.
+ */
+export function hapticLong() {
+    fetch(`${GLOVE_API}/haptic-pattern`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pattern: 'long' })
+    }).catch(() => {})
+}
