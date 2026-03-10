@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="VoiceLearn Pro - AI-driven voice-interactive gamified learning module for children with special needs">
+    <meta name="theme-color" content="#667eea">
+    <title>VoiceLearn Pro - Interactive Voice Learning Platform</title>
+
+    <!-- Design System & Components CSS -->
+    <link rel="stylesheet" href="src/styles/design-system.css">
+    <link rel="stylesheet" href="src/styles/components.css">
+
+    <style>
+        /* Page-specific header styles */
+        .app-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: var(--spacing-lg) 0;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-fixed);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+            gap: var(--spacing-lg);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .brand-icon {
+            font-size: var(--font-size-3xl);
+            line-height: 1;
+        }
+
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+            line-height: var(--line-height-tight);
+        }
+
+        .brand-name-main {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .brand-name-sub {
+            font-size: var(--font-size-xs);
+            opacity: 0.9;
+            font-weight: var(--font-weight-normal);
+        }
+
+        .main-nav {
+            display: flex;
+            gap: var(--spacing-xl);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: var(--transition-colors);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-sm);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .user-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .btn-settings {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-lg);
+            transition: var(--transition-colors);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-settings:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .welcome-card {
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .welcome-title {
+            font-size: var(--font-size-4xl);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .welcome-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .status-card {
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-all);
+        }
+
+        .status-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .status-card.ok {
+            border-left: 4px solid var(--color-success);
+            background: var(--color-success-bg);
+        }
+
+        .status-card.error {
+            border-left: 4px solid var(--color-danger);
+            background: var(--color-danger-bg);
+        }
+
+        .status-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .status-value {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+        }
+
+        .status-value.ok {
+            color: var(--color-success);
+        }
+
+        .status-value.error {
+            color: var(--color-danger);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: var(--spacing-md);
+                gap: var(--spacing-md);
+            }
+
+            .main-nav {
+                width: 100%;
+                justify-content: space-around;
+                gap: var(--spacing-md);
+            }
+
+            .nav-link {
+                font-size: var(--font-size-xs);
+                padding: var(--spacing-sm);
+            }
+
+            .welcome-card {
+                padding: var(--spacing-lg);
+            }
+
+            .welcome-title {
+                font-size: var(--font-size-2xl);
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Professional Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-icon">📚</div>
+                <div class="brand-name">
+                    <div class="brand-name-main">VoiceLearn Pro</div>
+                    <div class="brand-name-sub">Interactive Voice Learning</div>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#activities" class="nav-link">Activities</a>
+                <a href="#progress" class="nav-link">Progress</a>
+                <a href="#badges" class="nav-link">Badges</a>
+            </nav>
+
+            <div class="user-menu">
+                <span class="user-badge">👤 Student</span>
+                <button class="btn-settings" title="Settings">⚙️</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <h1 class="welcome-title">Welcome to VoiceLearn Pro 🎯</h1>
+            <p class="welcome-subtitle">AI-Powered Interactive Voice Learning for Special Needs Children</p>
+        </div>
+
+        <!-- Status Grid -->
+        <div class="status-grid">
+            <div class="status-card ok">
+                <div class="status-label">Frontend</div>
+                <div class="status-value ok">✓ Ready</div>
+            </div>
+            <div class="status-card" id="backend-card">
+                <div class="status-label">Backend</div>
+                <div class="status-value" id="backend-status">Checking...</div>
+            </div>
+            <div class="status-card" id="audio-card">
+                <div class="status-label">Audio</div>
+                <div class="status-value" id="audio-status">Checking...</div>
+            </div>
+            <div class="status-card">
+                <div class="status-label">Database</div>
+                <div class="status-value ok">✓ SQLite</div>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-2" style="margin-bottom: var(--spacing-2xl);">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎤 Voice Recognition</h3>
+                </div>
+                <div class="card-content">
+                    <p>Advanced speech recognition optimized for children's speech patterns with real-time feedback.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">😊 Emotion Detection</h3>
+                </div>
+                <div class="card-content">
+                    <p>Real-time emotional analysis to detect confidence, frustration, and engagement levels.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎮 Gamification</h3>
+                </div>
+                <div class="card-content">
+                    <p>Badges, XP, levels, daily challenges, and leaderboards to motivate learning.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Adaptive Learning</h3>
+                </div>
+                <div class="card-content">
+                    <p>IRT-based difficulty adjustment that adapts to student performance in real-time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-primary btn-lg" onclick="startSession()">
+                🚀 Start Learning Session
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="checkBackend()">
+                ⚡ Check System Status
+            </button>
+            <a href="gamification.html" class="btn btn-outline btn-lg">
+                📊 View Dashboard
+            </a>
+        </div>
+
+        <!-- Alert for info -->
+        <div class="alert alert-info" style="margin-top: var(--spacing-2xl);">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+                <div class="alert-title">System Information</div>
+                <div class="alert-message">
+                    All systems are operational. Start a learning session to begin your educational journey with
+                    voice-based interaction and adaptive difficulty.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Check backend health on page load
+        async function checkBackend() {
+            const statusEl = document.getElementById('backend-status');
+            const card = document.getElementById('backend-card');
+            try {
+                const response = await fetch('http://localhost:5001/health');
+                if (response.ok) {
+                    const data = await response.json();
+                    statusEl.textContent = '✓ Operational';
+                    statusEl.className = 'status-value ok';
+                    card.classList.add('ok');
+                    card.classList.remove('error');
+                    console.log('Backend status:', data);
+                } else {
+                    statusEl.textContent = '✗ Error';
+                    statusEl.className = 'status-value error';
+                    card.classList.add('error');
+                    card.classList.remove('ok');
+                }
+            } catch (error) {
+                statusEl.textContent = '✗ Not Responding';
+                statusEl.className = 'status-value error';
+                card.classList.add('error');
+                card.classList.remove('ok');
+                console.error('Backend check failed:', error);
+            }
+        }
+
+        // Check audio capabilities
+        function checkAudio() {
+            const audioEl = document.getElementById('audio-status');
+            const card = document.getElementById('audio-card');
+            const hasAudio = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+            if (hasAudio) {
+                audioEl.textContent = '✓ Available';
+                audioEl.className = 'status-value ok';
+                card.classList.add('ok');
+                card.classList.remove('error');
+            } else {
+                audioEl.textContent = '✗ Not Available';
+                audioEl.className = 'status-value error';
+                card.classList.add('error');
+                card.classList.remove('ok');
+            }
+        }
+
+        // Start a learning session
+        function startSession() {
+            const studentId = localStorage.getItem('studentId') || 'student-' + Date.now();
+            localStorage.setItem('studentId', studentId);
+            window.location.href = 'gamification.html';
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkBackend();
+            checkAudio();
+        });
+
+        // Recheck backend every 10 seconds
+        setInterval(checkBackend, 10000);
+    </script>
+</body>
+
+</html>

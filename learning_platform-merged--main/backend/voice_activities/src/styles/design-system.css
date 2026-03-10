@@ -1,0 +1,608 @@
+/* ============================================================================
+   DESIGN SYSTEM - Professional & Consistent UI Foundation
+   ============================================================================ */
+
+/* ============================================================================
+   1. COLOR PALETTE - Professional & Accessible
+   ============================================================================ */
+
+:root {
+  /* Primary Colors - Main brand colors */
+  --color-primary: #667eea;          /* Deep Blue - Primary action */
+  --color-primary-light: #8b9ff0;    /* Lighter blue - Hover states */
+  --color-primary-dark: #5568d3;     /* Darker blue - Active states */
+  --color-primary-bg: #f0f4ff;       /* Very light blue - Backgrounds */
+
+  /* Secondary Colors - Accent colors */
+  --color-secondary: #764ba2;        /* Purple - Secondary actions */
+  --color-secondary-light: #9d6fc8;  /* Lighter purple */
+  --color-secondary-dark: #5a3a80;   /* Darker purple */
+  --color-secondary-bg: #f3e8ff;     /* Very light purple */
+
+  /* Success - Positive states */
+  --color-success: #10b981;          /* Green - Success state */
+  --color-success-light: #6ee7b7;    /* Lighter green */
+  --color-success-dark: #059669;     /* Darker green */
+  --color-success-bg: #ecfdf5;       /* Very light green */
+
+  /* Warning - Caution states */
+  --color-warning: #f59e0b;          /* Amber - Warning state */
+  --color-warning-light: #fcd34d;    /* Lighter amber */
+  --color-warning-dark: #d97706;     /* Darker amber */
+  --color-warning-bg: #fffbeb;       /* Very light amber */
+
+  /* Danger - Error states */
+  --color-danger: #ef4444;           /* Red - Error state */
+  --color-danger-light: #f87171;     /* Lighter red */
+  --color-danger-dark: #dc2626;      /* Darker red */
+  --color-danger-bg: #fef2f2;        /* Very light red */
+
+  /* Info - Information states */
+  --color-info: #3b82f6;             /* Blue - Info state */
+  --color-info-light: #60a5fa;       /* Lighter blue */
+  --color-info-dark: #1d4ed8;        /* Darker blue */
+  --color-info-bg: #eff6ff;          /* Very light blue */
+
+  /* Neutral Colors - Grays for UI */
+  --color-neutral-50: #f9fafb;       /* Nearly white */
+  --color-neutral-100: #f3f4f6;      /* Very light gray */
+  --color-neutral-200: #e5e7eb;      /* Light gray - Borders */
+  --color-neutral-300: #d1d5db;      /* Medium-light gray */
+  --color-neutral-400: #9ca3af;      /* Medium gray */
+  --color-neutral-500: #6b7280;      /* Medium-dark gray */
+  --color-neutral-600: #4b5563;      /* Dark gray - Text */
+  --color-neutral-700: #374151;      /* Darker gray - Text */
+  --color-neutral-800: #1f2937;      /* Very dark gray - Text */
+  --color-neutral-900: #111827;      /* Almost black - Text */
+
+  /* Semantic Colors */
+  --color-text-primary: #111827;     /* Main text */
+  --color-text-secondary: #6b7280;   /* Secondary text */
+  --color-text-tertiary: #9ca3af;    /* Tertiary text */
+  --color-text-inverse: #ffffff;     /* White text on dark bg */
+  --color-bg-primary: #ffffff;       /* Primary background */
+  --color-bg-secondary: #f9fafb;     /* Secondary background */
+  --color-bg-tertiary: #f3f4f6;      /* Tertiary background */
+  --color-border: #e5e7eb;           /* Border color */
+
+  /* Status Colors */
+  --color-badge-common: #8b7355;     /* Common rarity */
+  --color-badge-uncommon: #4a9d5f;   /* Uncommon rarity */
+  --color-badge-rare: #4a7ec4;       /* Rare rarity */
+  --color-badge-epic: #8d5ba6;       /* Epic rarity */
+  --color-badge-legendary: #d4a574;  /* Legendary rarity */
+
+  /* Gradient Colors */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+
+  /* =========================================================================
+     2. SPACING SYSTEM - 8px base unit (modular scale)
+     ========================================================================= */
+
+  --spacing-0: 0;
+  --spacing-xs: 4px;          /* 0.25rem */
+  --spacing-sm: 8px;          /* 0.5rem */
+  --spacing-md: 16px;         /* 1rem */
+  --spacing-lg: 24px;         /* 1.5rem */
+  --spacing-xl: 32px;         /* 2rem */
+  --spacing-2xl: 48px;        /* 3rem */
+  --spacing-3xl: 64px;        /* 4rem */
+  --spacing-4xl: 80px;        /* 5rem */
+  --spacing-5xl: 96px;        /* 6rem */
+
+  /* =========================================================================
+     3. TYPOGRAPHY - Professional font system
+     ========================================================================= */
+
+  /* Font Family */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 
+                      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
+                      'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 
+                      'Menlo', 'Courier', monospace;
+  --font-family-display: 'Segoe UI', 'Roboto', sans-serif;
+
+  /* Font Sizes */
+  --font-size-xs: 12px;       /* 0.75rem */
+  --font-size-sm: 14px;       /* 0.875rem */
+  --font-size-base: 16px;     /* 1rem */
+  --font-size-lg: 18px;       /* 1.125rem */
+  --font-size-xl: 20px;       /* 1.25rem */
+  --font-size-2xl: 24px;      /* 1.5rem */
+  --font-size-3xl: 28px;      /* 1.75rem */
+  --font-size-4xl: 32px;      /* 2rem */
+  --font-size-5xl: 36px;      /* 2.25rem */
+  --font-size-6xl: 48px;      /* 3rem */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.5px;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.5px;
+  --letter-spacing-wider: 1px;
+
+  /* =========================================================================
+     4. BORDER RADIUS - Consistent rounded corners
+     ========================================================================= */
+
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+
+  /* =========================================================================
+     5. SHADOWS - Elevation system (Material Design inspired)
+     ========================================================================= */
+
+  /* Subtle shadows */
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+  /* Colored shadows */
+  --shadow-primary: 0 10px 20px rgba(102, 126, 234, 0.15);
+  --shadow-secondary: 0 10px 20px rgba(118, 75, 162, 0.15);
+  --shadow-success: 0 10px 20px rgba(16, 185, 129, 0.15);
+  --shadow-danger: 0 10px 20px rgba(239, 68, 68, 0.15);
+
+  /* =========================================================================
+     6. TRANSITIONS & ANIMATIONS - Smooth interactions
+     ========================================================================= */
+
+  /* Transition durations */
+  --transition-fast: 150ms;
+  --transition-base: 200ms;
+  --transition-slow: 300ms;
+  --transition-slower: 500ms;
+
+  /* Transition timing */
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-timing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --transition-timing-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --transition-timing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Complete transitions */
+  --transition-all: all var(--transition-base) var(--transition-timing);
+  --transition-colors: background-color var(--transition-base) var(--transition-timing), 
+                       color var(--transition-base) var(--transition-timing),
+                       border-color var(--transition-base) var(--transition-timing);
+  --transition-transform: transform var(--transition-base) var(--transition-timing);
+  --transition-opacity: opacity var(--transition-base) var(--transition-timing);
+
+  /* =========================================================================
+     7. Z-INDEX SYSTEM - Layering hierarchy
+     ========================================================================= */
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-notification: 1080;
+
+  /* =========================================================================
+     8. BREAKPOINTS - Responsive design
+     ========================================================================= */
+
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* =========================================================================
+     9. CONTAINER - Max width
+     ========================================================================= */
+
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+
+  /* =========================================================================
+     10. DARK MODE - CSS variables for dark theme
+     ========================================================================= */
+
+  color-scheme: light dark;
+}
+
+/* Dark mode theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #1e293b;
+    --color-bg-tertiary: #334155;
+    --color-border: #334155;
+    --color-primary-bg: #1e3a8a;
+    --color-secondary-bg: #3f0f64;
+    --color-success-bg: #064e3b;
+    --color-warning-bg: #78350f;
+    --color-danger-bg: #7f1d1d;
+    --color-info-bg: #0c2340;
+  }
+}
+
+/* Dark mode class for manual toggle */
+:root.dark,
+body.dark {
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-tertiary: #9ca3af;
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-border: #334155;
+  --color-primary-bg: #1e3a8a;
+  --color-secondary-bg: #3f0f64;
+  --color-success-bg: #064e3b;
+  --color-warning-bg: #78350f;
+  --color-danger-bg: #7f1d1d;
+  --color-info-bg: #0c2340;
+}
+
+/* ============================================================================
+   GLOBAL STYLES - Reset & base styles
+   ============================================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: var(--transition-colors);
+}
+
+/* Text Selection */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-400);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-500);
+}
+
+/* ============================================================================
+   HEADINGS - Typography hierarchy
+   ============================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--font-size-5xl);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h2 {
+  font-size: var(--font-size-4xl);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h3 {
+  font-size: var(--font-size-3xl);
+}
+
+h4 {
+  font-size: var(--font-size-2xl);
+}
+
+h5 {
+  font-size: var(--font-size-xl);
+}
+
+h6 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================================================
+   PARAGRAPH & TEXT - Text elements
+   ============================================================================ */
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+small, .text-small {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+strong, .text-strong {
+  font-weight: var(--font-weight-bold);
+}
+
+em, .text-em {
+  font-style: italic;
+}
+
+code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  background: var(--color-bg-tertiary);
+  color: var(--color-danger);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+}
+
+/* ============================================================================
+   LINKS - Anchor styling
+   ============================================================================ */
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+
+a:hover {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
+a:active {
+  color: var(--color-primary-dark);
+}
+
+/* ============================================================================
+   LISTS - List styling
+   ============================================================================ */
+
+ul, ol {
+  margin-left: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+li {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* ============================================================================
+   FORMS - Form element styling
+   ============================================================================ */
+
+input, textarea, select {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  transition: var(--transition-colors);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-bg);
+}
+
+input[type="text"]:disabled,
+input[type="email"]:disabled,
+input[type="password"]:disabled,
+textarea:disabled,
+select:disabled {
+  background: var(--color-bg-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================================================
+   UTILITY CLASSES - Common patterns
+   ============================================================================ */
+
+/* Display utilities */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+.hidden { display: none; }
+
+/* Flexbox utilities */
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.flex-center { justify-content: center; align-items: center; }
+.flex-between { justify-content: space-between; align-items: center; }
+.flex-start { justify-content: flex-start; align-items: center; }
+.flex-end { justify-content: flex-end; align-items: center; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; }
+.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+.line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; }
+
+/* Color utilities */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-danger { color: var(--color-danger); }
+.text-muted { color: var(--color-text-secondary); }
+.bg-primary { background-color: var(--color-primary-bg); }
+.bg-secondary { background-color: var(--color-secondary-bg); }
+.bg-success { background-color: var(--color-success-bg); }
+.bg-warning { background-color: var(--color-warning-bg); }
+.bg-danger { background-color: var(--color-danger-bg); }
+
+/* Spacing utilities */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+
+.mt-xs { margin-top: var(--spacing-xs); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+/* Rounded utilities */
+.rounded-none { border-radius: var(--radius-none); }
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Shadow utilities */
+.shadow-none { box-shadow: var(--shadow-none); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-2xl { box-shadow: var(--shadow-2xl); }
+.shadow-primary { box-shadow: var(--shadow-primary); }
+.shadow-danger { box-shadow: var(--shadow-danger); }
+
+/* Font size utilities */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+
+/* Font weight utilities */
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+/* Opacity utilities */
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+/* Position utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+/* Print utilities */
+@media print {
+  .no-print { display: none; }
+}

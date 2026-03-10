@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceLearn Pro - Working Version</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .difficulty-btn.easy { background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); }
+        .difficulty-btn.medium { background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%); }
+        .difficulty-btn.hard { background: linear-gradient(135deg, #F44336 0%, #D32F2F 100%); }
+
+        .activity-btn {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 80px;
+            justify-content: center;
+        }
+
+        .activity-emoji {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #2196F3;
+        }
+
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 VoiceLearn Pro</h1>
+            <p>Working Voice Learning System</p>
+        </div>
+
+        <!-- Progress Dashboard -->
+        <div class="card">
+            <h2>🏆 Your Learning Progress</h2>
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #FFD700, #FFA500);">
+                    <div style="font-size: 0.9em; opacity: 0.9;">Total XP</div>
+                    <div id="totalXP" style="font-size: 1.8em; font-weight: bold; margin: 5px 0;">0</div>
+                    <div style="font-size: 0.8em;">Level <span id="playerLevel">1</span></div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #4CAF50, #45a049);">
+                    <div style="font-size: 0.9em; opacity: 0.9;">Accuracy</div>
+                    <div id="accuracy" style="font-size: 1.8em; font-weight: bold; margin: 5px 0;">0%</div>
+                    <div style="font-size: 0.8em;"><span id="correctCount">0</span>/<span id="totalCount">0</span> Correct</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #FF6B6B, #E55353);">
+                    <div style="font-size: 0.9em; opacity: 0.9;">Current Streak</div>
+                    <div id="currentStreak" style="font-size: 1.8em; font-weight: bold; margin: 5px 0;">0</div>
+                    <div style="font-size: 0.8em;">Best: <span id="maxStreak">0</span> 🔥</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2);">
+                    <div style="font-size: 0.9em; opacity: 0.9;">Sessions</div>
+                    <div id="sessionsCompleted" style="font-size: 1.8em; font-weight: bold; margin: 5px 0;">0</div>
+                    <div style="font-size: 0.8em;">Completed 🎓</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badge System -->
+        <div class="card">
+            <h2>🏅 Achievements & Badges</h2>
+            <div class="badge-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0;">
+                <div class="badge-item" id="firstQuestion" style="text-align: center; padding: 15px; border-radius: 10px; background: #f5f5f5;">
+                    <div style="font-size: 2em;">🎯</div>
+                    <div style="font-weight: bold; margin: 5px 0;">First Answer</div>
+                    <div style="font-size: 0.8em; color: #666;">Answer your first question</div>
+                </div>
+                <div class="badge-item" id="accuracy50" style="text-align: center; padding: 15px; border-radius: 10px; background: #f5f5f5;">
+                    <div style="font-size: 2em;">⭐</div>
+                    <div style="font-weight: bold; margin: 5px 0;">Star Student</div>
+                    <div style="font-size: 0.8em; color: #666;">50% accuracy or higher</div>
+                </div>
+                <div class="badge-item" id="streak5" style="text-align: center; padding: 15px; border-radius: 10px; background: #f5f5f5;">
+                    <div style="font-size: 2em;">🔥</div>
+                    <div style="font-weight: bold; margin: 5px 0;">Hot Streak</div>
+                    <div style="font-size: 0.8em; color: #666;">5 correct answers in a row</div>
+                </div>
+                <div class="badge-item" id="level3" style="text-align: center; padding: 15px; border-radius: 10px; background: #f5f5f5;">
+                    <div style="font-size: 2em;">🏆</div>
+                    <div style="font-weight: bold; margin: 5px 0;">Champion</div>
+                    <div style="font-size: 0.8em; color: #666;">Reach level 3</div>
+                </div>
+                <div class="badge-item" id="sessions10" style="text-align: center; padding: 15px; border-radius: 10px; background: #f5f5f5;">
+                    <div style="font-size: 2em;">🎓</div>
+                    <div style="font-weight: bold; margin: 5px 0;">Scholar</div>
+                    <div style="font-size: 0.8em; color: #666;">Complete 10 sessions</div>
+                </div>
+                <div class="badge-item" id="perfectScore" style="text-align: center; padding: 15px; border-radius: 10px; background: #f5f5f5;">
+                    <div style="font-size: 2em;">🌟</div>
+                    <div style="font-weight: bold; margin: 5px 0;">Perfect!</div>
+                    <div style="font-size: 0.8em; color: #666;">100% in a session</div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Difficulty Selection -->
+        <div class="card">
+            <h2>⚙️ Select Difficulty Level</h2>
+            <div class="button-grid">
+                <button class="btn difficulty-btn easy" onclick="setDifficulty('easy')">🟢 Easy</button>
+                <button class="btn difficulty-btn medium" onclick="setDifficulty('medium')">🟡 Medium</button>
+                <button class="btn difficulty-btn hard" onclick="setDifficulty('hard')">🔴 Hard</button>
+            </div>
+            <div class="status info" id="difficultyStatus">
+                👈 Select a difficulty level to begin
+            </div>
+        </div>
+
+        <!-- Voice Learning Session -->
+        <div class="card">
+            <h2>🎤 Voice Learning Session</h2>
+            <div class="button-grid">
+                <button class="btn" id="startVoiceBtn" onclick="startVoiceLearning()">🚀 Start Voice Learning</button>
+                <button class="btn" id="stopVoiceBtn" onclick="stopVoiceLearning()" style="display: none;">⏹️ Stop Session</button>
+            </div>
+            <div class="status info" id="voiceStatus">
+                👆 Click "Start Voice Learning" to begin your session!
+            </div>
+        </div>
+
+        <!-- Learning Activities -->
+        <div class="card">
+            <h2>📚 Learning Activities</h2>
+            <div class="button-grid">
+                <button class="btn activity-btn" onclick="startActivity('counting')">
+                    <span class="activity-emoji">🔢</span>
+                    <span>Counting Adventure</span>
+                </button>
+                <button class="btn activity-btn" onclick="startActivity('numbers')">
+                    <span class="activity-emoji">🎯</span>
+                    <span>Number Recognition</span>
+                </button>
+                <button class="btn activity-btn" onclick="startActivity('math')">
+                    <span class="activity-emoji">➕</span>
+                    <span>Basic Math</span>
+                </button>
+                <button class="btn activity-btn" onclick="startActivity('alphabet')">
+                    <span class="activity-emoji">🔤</span>
+                    <span>Alphabet Learning</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Session Status -->
+        <div class="card">
+            <h2>📊 Session Status</h2>
+            <div class="status info" id="sessionStatus">
+                Ready to start learning! Select difficulty and choose an activity.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedDifficulty = null;
+        let voiceActive = false;
+        let currentQuestion = null;
+        let recognition = null;
+        let questionCount = 0;
+        let correctAnswers = 0;
+
+        // Player stats
+        let playerStats = {
+            totalXP: 0,
+            totalQuestions: 0,
+            correctTotal: 0,
+            streak: 0,
+            maxStreak: 0,
+            sessionsCompleted: 0,
+            badges: []
+        };
+
+        // Question banks
+        const questionBanks = {
+            'counting': {
+                'easy': [
+                    { question: 'How many fingers do you have on one hand?', answers: ['5', 'five'] },
+                    { question: 'What comes after 2?', answers: ['3', 'three'] },
+                    { question: 'How many eyes do you have?', answers: ['2', 'two'] }
+                ],
+                'medium': [
+                    { question: 'What is 5 plus 3?', answers: ['8', 'eight'] },
+                    { question: 'How many days are in a week?', answers: ['7', 'seven'] }
+                ],
+                'hard': [
+                    { question: 'What is 12 divided by 3?', answers: ['4', 'four'] }
+                ]
+            }
+        };
+
+        // Text-to-speech
+        function speak(text) {
+            return new Promise((resolve) => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                utterance.onend = resolve;
+                speechSynthesis.speak(utterance);
+                console.log('🔊 Speaking:', text);
+                setTimeout(resolve, Math.max(text.length * 80, 2000));
+            });
+        }
+
+        // Initialize speech recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onstart = () => {
+                    console.log('🎤 Listening started');
+                    updateVoiceStatus('🎤 Listening... Please speak your answer');
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+                    console.log('👂 Heard:', transcript);
+                    processAnswer(transcript);
+                };
+
+                recognition.onerror = () => {
+                    console.log('❌ Speech recognition error');
+                    speak('Sorry, I didnt hear that clearly. Let me ask again.');
+                    setTimeout(askQuestion, 2000);
+                };
+
+                return true;
+            }
+            return false;
+        }
+
+        // Ask question
+        async function askQuestion() {
+            if (!voiceActive || questionCount >= 5) {
+                if (questionCount >= 5) {
+                    endSession();
+                }
+                return;
+            }
+
+            const questions = questionBanks.counting[selectedDifficulty] || questionBanks.counting.easy;
+            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+            questionCount++;
+
+            updateVoiceStatus(`🎯 Question ${questionCount}/5: Getting ready...`);
+            await speak(`Question ${questionCount}. ${currentQuestion.question}`);
+
+            setTimeout(() => {
+                if (recognition && voiceActive) {
+                    recognition.start();
+                }
+            }, 1000);
+        }
+
+        // Process answer
+        async function processAnswer(userAnswer) {
+            if (!currentQuestion) return;
+
+            const isCorrect = currentQuestion.answers.some(answer => 
+                userAnswer.includes(answer.toLowerCase())
+            );
+
+            playerStats.totalQuestions++;
+            
+            if (isCorrect) {
+                correctAnswers++;
+                playerStats.correctTotal++;
+                playerStats.streak++;
+                playerStats.totalXP += 25;
+                
+                if (playerStats.streak > playerStats.maxStreak) {
+                    playerStats.maxStreak = playerStats.streak;
+                }
+
+                await speak('Excellent! That is correct!');
+                updateVoiceStatus(`✅ Correct! Score: ${correctAnswers}/${questionCount} | Streak: ${playerStats.streak} 🔥`);
+            } else {
+                playerStats.streak = 0;
+                playerStats.totalXP += 5;
+                const correctAnswer = currentQuestion.answers[0];
+                await speak(`Good try! The correct answer is ${correctAnswer}.`);
+                updateVoiceStatus(`❌ Answer: ${correctAnswer} | Score: ${correctAnswers}/${questionCount}`);
+            }
+
+            updateStatsDisplay();
+            saveStats();
+
+            setTimeout(askQuestion, 3000);
+        }
+
+        // End session
+        async function endSession() {
+            playerStats.sessionsCompleted++;
+            const accuracy = Math.round((correctAnswers / questionCount) * 100);
+            
+            await speak(`Session complete! You got ${correctAnswers} out of ${questionCount} questions correct.`);
+            updateVoiceStatus(`🎉 Session Complete! Score: ${correctAnswers}/${questionCount} (${accuracy}%)`);
+            
+            updateStatsDisplay();
+            saveStats();
+            
+            setTimeout(stopVoiceLearning, 3000);
+        }
+
+        // Update voice status
+        function updateVoiceStatus(message) {
+            const statusEl = document.getElementById('voiceStatus');
+            if (statusEl) {
+                statusEl.textContent = message;
+            }
+        }
+
+        // Update stats display
+        function updateStatsDisplay() {
+            document.getElementById('totalXP').textContent = playerStats.totalXP;
+            document.getElementById('playerLevel').textContent = Math.floor(playerStats.totalXP / 100) + 1;
+            
+            const accuracy = playerStats.totalQuestions > 0 ? 
+                Math.round((playerStats.correctTotal / playerStats.totalQuestions) * 100) : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+            document.getElementById('correctCount').textContent = playerStats.correctTotal;
+            document.getElementById('totalCount').textContent = playerStats.totalQuestions;
+            
+            document.getElementById('currentStreak').textContent = playerStats.streak;
+            document.getElementById('maxStreak').textContent = playerStats.maxStreak;
+            document.getElementById('sessionsCompleted').textContent = playerStats.sessionsCompleted;
+            
+            checkBadges();
+            updateBadgeDisplay();
+        }
+
+        // Badge system
+        function checkBadges() {
+            const badges = playerStats.badges || [];
+            const level = Math.floor(playerStats.totalXP / 100) + 1;
+            const accuracy = playerStats.totalQuestions > 0 ? 
+                Math.round((playerStats.correctTotal / playerStats.totalQuestions) * 100) : 0;
+            
+            // First Answer badge
+            if (playerStats.totalQuestions >= 1 && !badges.includes('firstQuestion')) {
+                awardBadge('firstQuestion', '🎯 First Answer Badge Unlocked!');
+            }
+            
+            // Star Student badge (50% accuracy)
+            if (accuracy >= 50 && playerStats.totalQuestions >= 5 && !badges.includes('accuracy50')) {
+                awardBadge('accuracy50', '⭐ Star Student Badge Unlocked!');
+            }
+            
+            // Hot Streak badge (5 in a row)
+            if (playerStats.maxStreak >= 5 && !badges.includes('streak5')) {
+                awardBadge('streak5', '🔥 Hot Streak Badge Unlocked!');
+            }
+            
+            // Champion badge (level 3)
+            if (level >= 3 && !badges.includes('level3')) {
+                awardBadge('level3', '🏆 Champion Badge Unlocked!');
+            }
+            
+            // Scholar badge (10 sessions)
+            if (playerStats.sessionsCompleted >= 10 && !badges.includes('sessions10')) {
+                awardBadge('sessions10', '🎓 Scholar Badge Unlocked!');
+            }
+            
+            // Perfect Score badge (100% in a session)
+            if (questionCount === 5 && correctAnswers === 5 && !badges.includes('perfectScore')) {
+                awardBadge('perfectScore', '🌟 Perfect Score Badge Unlocked!');
+            }
+        }
+
+        function awardBadge(badgeId, message) {
+            if (!playerStats.badges) playerStats.badges = [];
+            playerStats.badges.push(badgeId);
+            playerStats.totalXP += 50; // Bonus XP for badges
+            
+            speak(message);
+            updateVoiceStatus(`✨ ${message}`);
+            saveStats();
+        }
+
+        function updateBadgeDisplay() {
+            const badges = playerStats.badges || [];
+            badges.forEach(badgeId => {
+                const badgeElement = document.getElementById(badgeId);
+                if (badgeElement) {
+                    badgeElement.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+                    badgeElement.style.transform = 'scale(1.05)';
+                    badgeElement.style.boxShadow = '0 4px 15px rgba(255,215,0,0.4)';
+                }
+            });
+        }
+
+        // Save/Load stats
+        function saveStats() {
+            localStorage.setItem('playerStats', JSON.stringify(playerStats));
+        }
+
+        function loadStats() {
+            const saved = localStorage.getItem('playerStats');
+            if (saved) {
+                playerStats = { ...playerStats, ...JSON.parse(saved) };
+            }
+            updateStatsDisplay();
+        }
+
+
+
+        // Set difficulty
+        function setDifficulty(level) {
+            selectedDifficulty = level;
+            const statusEl = document.getElementById('difficultyStatus');
+            const emoji = level === 'easy' ? '🟢' : level === 'medium' ? '🟡' : '🔴';
+            const levelText = level.charAt(0).toUpperCase() + level.slice(1);
+            
+            statusEl.className = 'status success';
+            statusEl.textContent = `✅ ${emoji} ${levelText} Mode Selected!`;
+            
+            updateSessionStatus(`Difficulty set to ${levelText}. Ready to start voice learning!`);
+            localStorage.setItem('selectedDifficulty', level);
+        }
+
+        // Start activity
+        function startActivity(activityId) {
+            if (!selectedDifficulty) {
+                alert('⚠️ Please select a difficulty level first!');
+                return;
+            }
+            
+            const activityNames = {
+                'counting': 'Counting Adventure 🔢',
+                'numbers': 'Number Recognition 🎯',
+                'math': 'Basic Math ➕',
+                'alphabet': 'Alphabet Learning 🔤'
+            };
+            
+            const activityName = activityNames[activityId];
+            updateSessionStatus(`🚀 ${activityName} selected in ${selectedDifficulty} mode! Ready for voice learning.`);
+            
+            speak(`Starting ${activityName} activity. Click Start Voice Learning when ready!`);
+        }
+
+        // Voice learning functions
+        function startVoiceLearning() {
+            if (voiceActive) {
+                alert('Voice learning is already active!');
+                return;
+            }
+            
+            if (!selectedDifficulty) {
+                alert('⚠️ Please select a difficulty level first!');
+                return;
+            }
+            
+            if (!initSpeechRecognition()) {
+                alert('❌ Speech recognition not supported. Please use Chrome or Edge.');
+                return;
+            }
+            
+            voiceActive = true;
+            questionCount = 0;
+            correctAnswers = 0;
+            
+            document.getElementById('startVoiceBtn').style.display = 'none';
+            document.getElementById('stopVoiceBtn').style.display = 'block';
+            
+            updateVoiceStatus('🚀 Starting voice learning session...');
+            updateSessionStatus('🎤 Voice learning session started! Get ready for questions.');
+            
+            speak('Welcome to voice learning! I will ask you 5 questions. Answer clearly. Let us begin!')
+                .then(() => {
+                    setTimeout(askQuestion, 2000);
+                });
+        }
+
+        function stopVoiceLearning() {
+            voiceActive = false;
+            
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            
+            if (recognition) {
+                recognition.stop();
+            }
+            
+            document.getElementById('startVoiceBtn').style.display = 'block';
+            document.getElementById('stopVoiceBtn').style.display = 'none';
+            
+            updateVoiceStatus('👆 Click "Start Voice Learning" to begin your session!');
+            updateSessionStatus('⏹️ Voice learning session stopped. Ready to start again!');
+            
+            currentQuestion = null;
+        }
+
+        // Update session status
+        function updateSessionStatus(message) {
+            const statusEl = document.getElementById('sessionStatus');
+            statusEl.className = 'status info';
+            statusEl.textContent = message;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            loadStats();
+            
+            const saved = localStorage.getItem('selectedDifficulty');
+            if (saved) {
+                setDifficulty(saved);
+            }
+            
+            updateSessionStatus('🎓 VoiceLearn Pro initialized and ready!');
+            console.log('✅ All systems ready!');
+        });
+
+        console.log('🎯 VoiceLearn Pro - All functions loaded successfully!');
+    </script>
+</body>
+</html>

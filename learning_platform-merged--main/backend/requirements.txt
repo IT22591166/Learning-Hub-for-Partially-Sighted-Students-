@@ -1,0 +1,29 @@
+# ============================================
+# Unified Learning Hub - Python Dependencies
+# ============================================
+
+# Core API
+flask>=2.3.0
+flask-cors>=4.0.0
+python-dotenv>=0.21.0
+
+# SciBot Dependencies
+numpy>=1.26.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+pypdf>=3.0.0
+
+# Voice Module Dependencies
+scipy>=1.10.0
+requests>=2.31.0
+
+# Optional: Better audio processing (install if needed)
+# librosa>=0.10.0
+# soundfile>=0.12.0
+
+# Optional: Semantic search for SciBot (install if needed)
+# sentence-transformers>=2.2.0
+# faiss-cpu>=1.7.0
+
+# Development
+pytest>=6.2.0
