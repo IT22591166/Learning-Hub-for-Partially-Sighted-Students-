@@ -1,6 +1,6 @@
 """
-SciBot Engine - Grade 7 Science Q&A using TF-IDF retrieval
-Adapted from IT22557124's SciBot module (LLM disabled for lightweight deployment)
+SciBot Engine - Grade 7 Science Q&A using TF-IDF retrieval + LLM answer generation
+Adapted from IT22557124's SciBot module
 """
 
 import os
@@ -36,6 +36,23 @@ try:
 except Exception:
     sparse = None
     _HAS_SCIPY = False
+
+# LLM for natural answer generation (optional but recommended)
+USE_LLM = True
+_HAS_LLM = False
+
+if USE_LLM:
+    try:
+        from transformers import AutoTokenizer, AutoModelForCausalLM
+        import torch
+        _HAS_LLM = True
+        MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        llm_tokenizer = None
+        llm_model = None
+    except ImportError:
+        print("⚠ transformers/torch not installed. LLM answers disabled, using extractive fallback.")
+        USE_LLM = False
 
 # ----------------------------------------------------
 # CONFIG - paths relative to this file's directory
@@ -316,7 +333,81 @@ def retrieve_chunks(question: str, k: int = 5, initial_k: int = 20):
 
 
 # ====================================================
-# EXTRACTIVE ANSWER (no LLM)
+# LLM ANSWER GENERATION (TinyLlama)
+# ====================================================
+
+def load_llm_if_needed():
+    """Lazily load the LLM model on first use."""
+    if not USE_LLM or not _HAS_LLM:
+        return
+    global llm_tokenizer, llm_model
+
+    if llm_model is not None:
+        return
+
+    if device == "cpu":
+        try:
+            torch.set_num_threads(max(1, min(8, (os.cpu_count() or 2))))
+        except Exception:
+            pass
+
+    print(f"🔹 Loading small LLM {MODEL_NAME} on {device}...")
+    llm_tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
+    llm_model = AutoModelForCausalLM.from_pretrained(
+        MODEL_NAME,
+        torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+        device_map="auto" if device == "cuda" else None,
+        low_cpu_mem_usage=True,
+    )
+    llm_model.to(device)
+    llm_model.eval()
+    print("✅ Small LLM loaded.")
+
+
+def build_prompt(question: str, contexts: List[Dict[str, Any]]) -> str:
+    """Build a prompt for the LLM using retrieved context chunks."""
+    joined = "\n\n".join(
+        f"[Source: {c['source']} page {c['page_num']}]\n{c['text']}"
+        for c in contexts
+    )
+    return (
+        "You are a Grade 7 science tutor.\n"
+        "Use ONLY the information in the context from the textbook to answer.\n"
+        "If the answer is not in the context, say: 'I cannot find this in the book.'\n"
+        "Give a short, clear answer.\n\n"
+        f"### Context:\n{joined}\n\n"
+        f"### Question:\n{question}\n\n"
+        "### Answer:\n"
+    )
+
+
+def generate_llm_answer(prompt: str, max_new_tokens: int = 128) -> str:
+    """Generate an answer using the loaded LLM."""
+    inputs = llm_tokenizer(prompt, return_tensors="pt").to(device)
+    with torch.no_grad():
+        out = llm_model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            temperature=0.0,
+        )
+    full = llm_tokenizer.decode(out[0], skip_special_tokens=True)
+    raw = full[len(prompt):].strip()
+
+    for marker in ["### Question", "### Context", "### Answer"]:
+        pos = raw.find(marker)
+        if pos != -1:
+            raw = raw[:pos].strip()
+
+    sentences = [s.strip() for s in raw.split(".") if s.strip()]
+    cleaned = ". ".join(sentences[:3])
+    if cleaned and not cleaned.endswith("."):
+        cleaned += "."
+    return cleaned if cleaned else raw
+
+
+# ====================================================
+# EXTRACTIVE ANSWER (fallback when LLM not available)
 # ====================================================
 
 def extract_answer_from_chunk(chunk_text: str, max_sentences: int = 2) -> str:
@@ -331,6 +422,14 @@ def _cached_answer(question: str) -> str:
     ctx = retrieve_chunks(question, k=3, initial_k=20)
     if not ctx:
         return "I cannot find this in the book."
+
+    # Use LLM for natural answers if available
+    if USE_LLM and _HAS_LLM:
+        load_llm_if_needed()
+        prompt = build_prompt(question, ctx)
+        return generate_llm_answer(prompt)
+
+    # Fallback: extractive answer from best chunk
     return extract_answer_from_chunk(ctx[0]["text"], max_sentences=2)
 
 
