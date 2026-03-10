@@ -41,7 +41,7 @@ function App() {
                             <Link
                                 to={link.path}
                                 className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
-                                onMouseEnter={() => hapticNotify('3')}
+                                onMouseEnter={() => hapticNotify('1')}
                             >
                                 {link.label}
                             </Link>
@@ -54,7 +54,7 @@ function App() {
                         className="theme-toggle"
                         onClick={() => setDarkMode(!darkMode)}
                         aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                        onMouseEnter={() => hapticNotify('3')}
+                        onMouseEnter={() => hapticNotify('1')}
                     >
                         {darkMode ? '☀️' : '🌙'}
                     </button>
