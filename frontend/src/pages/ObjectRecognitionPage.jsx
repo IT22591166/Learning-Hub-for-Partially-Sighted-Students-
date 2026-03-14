@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { hapticNotify } from '../utils/hapticNotify'
 
 const SHAPES_INFO = {
     Circle: { emoji: '⭕', type: '2D', color: '#3b82f6' },
@@ -93,6 +94,7 @@ export default function ObjectRecognitionPage() {
             } else {
                 setResult(data)
                 setHistory(prev => [data, ...prev].slice(0, 10))
+                hapticNotify('1')
                 // Refresh image to show what was detected
                 capturePhoto()
             }

@@ -327,6 +327,13 @@ export class VoiceLearningModule {
       character: 'sophie',
       emotionalTone
     });
+
+    // Haptic notification — fire and forget
+    fetch('http://localhost:5001/api/smart-glove/motor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ command: '1' })
+    }).catch(() => {});
   }
 
   /**
