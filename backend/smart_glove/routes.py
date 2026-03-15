@@ -15,12 +15,11 @@ smart_glove_bp = Blueprint('smart_glove', __name__, url_prefix='/api/smart-glove
 
 def run_async(coro):
     """Helper to run async code from sync Flask routes."""
+    loop = asyncio.new_event_loop()
     try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-    return loop.run_until_complete(coro)
+        return loop.run_until_complete(coro)
+    finally:
+        loop.close()
 
 
 @smart_glove_bp.route('/status', methods=['GET'])
@@ -93,10 +92,14 @@ def connect():
     try:
         ble = get_ble_manager()
         run_async(ble.connect(address, timeout))
+        status = ble.get_status()
         return jsonify({
             "success": True,
             "connected": True,
-            "device_address": ble.device_address,
+            "device_name": status.get("device_name"),
+            "device_address": status.get("device_address"),
+            "service_uuid": status.get("service_uuid"),
+            "characteristic_uuid": status.get("characteristic_uuid"),
             "message": "Successfully connected to SmartHapticGlove"
         })
     except ConnectionError as e:
